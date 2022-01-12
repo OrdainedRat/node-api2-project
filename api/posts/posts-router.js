@@ -30,12 +30,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const post = req.body;
-    console.log(req.body)
+    console.log(post)
     try {
         if(!post.title || !post.contents) {
             res.status(400).json({ message: "Please provide title and contents for the post" })
         } else { 
-            const updatedPost = await Post.insert(post);
+            const postId = await Post.insert(post);
+            const updatedPost = await Post.findById(postId.id)
             res.status(201).json(updatedPost)
         }
     } catch(err) {
